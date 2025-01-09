@@ -1,4 +1,6 @@
-#include "../includes/Serializer.hpp"
+#include "../includes/iter.hpp"
+
+// SECTION - press_any_key()
 
 #include <termios.h>
 #include <unistd.h>
@@ -18,31 +20,58 @@ void press_any_key()
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_terminal);
 }
 
-int main()
+//! SECTION
+
+// SECTION - Test Functions
+
+void string_upper(STRING &str)
 {
-	Data data;
-	data.nb = 42;
-	data.str = "bla bla bla";
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		str[i] = std::toupper(str[i]);
+	}
+}
 
-	PRINT << CYAN "original values" << RESEND;
-	PRINT << CYAN "data.nb = " << data.nb << RESEND;
-	PRINT << CYAN "data.str = " << data.str << RESEND;
-	PRINT << CYAN "data = " << &data << RESEND;
+void square_of(int &nb)
+{
+	nb *= nb;
+}
 
+//! SECTION
 
-	SPACER(1)
+// SECTION - main()
 
-	Serializer serializer;
+int main(void)
+{
+	{
+		MAIN_MSG("string array")
 
-	Data *new_data = serializer.deserialize(serializer.serialize(&data));
+		STRING array[] = {"hola", "mundo", "como", "estas"};
+		int array_size = 4;
+		::iter(array, array_size, string_upper);
 
-	PRINT << GREEN "reinterpreted values" << RESEND;
-	PRINT << GREEN "new_data.nb = " << new_data->nb << RESEND;
-	PRINT << GREEN "new_data.str = " << new_data->str << RESEND;
-	PRINT << GREEN "new_data = " << new_data << RESEND;
+		for (int i = 0; i < array_size; i++)
+		{
+			PRINT << "array[" << i << "] = " << array[i] << RESEND;
+		}
+		press_any_key();
+		SPACER(2)
+	}
+	{
+		MAIN_MSG("int array")
 
-	SPACER(1)
+		int array[] = {1, 2, 3, 4, 5};
+		int array_size = 5;
+		::iter(array, array_size, square_of);
 
-	// press_any_key();
+		for (int i = 0; i < array_size; i++)
+		{
+			PRINT << "array[" << i << "] = " << array[i] << RESEND;
+		}
+		press_any_key();
+		SPACER(2)
+	}
 	return 0;
 }
+
+//! SECTION

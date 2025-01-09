@@ -1,7 +1,6 @@
-#include "../includes/Base.hpp"
-#include "../includes/A.hpp"
-#include "../includes/B.hpp"
-#include "../includes/C.hpp"
+#include "../includes/whatever.hpp"
+
+//SECTION - press_any_key()
 
 #include <termios.h>
 #include <unistd.h>
@@ -21,79 +20,31 @@ void press_any_key()
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_terminal);
 }
 
-// ---------- //
+//!SECTION
 
-Base *generate(void)
+//SECTION - main()
+
+int main(void)
 {
-	switch (rand() % 3)
-	{
-	case 0:
-		return (new A());
-		break;
-	case 1:
-		return (new B());
-		break;
-	case 2:
-		return (new C());
-		break;
-	}
-	return NULL;
-}
+	MAIN_MSG("int")
+	int a = 2;
+	int b = 3;
+	::swap(a, b);
+	PRINT << "a = " << a << ", b = " << b << RESEND;
+	PRINT << "min( a, b ) = " << ::min(a, b) << RESEND;
+	PRINT << "max( a, b ) = " << ::max(a, b) << RESEND;
+	press_any_key();
 
-void identify(Base *p)
-{
-	if (dynamic_cast<A *>(p))
-		PRINT << CYAN "Class A" << RESEND;
-	else if (dynamic_cast<B *>(p))
-		PRINT << CYAN "Class B" << RESEND;
-	else if (dynamic_cast<C *>(p))
-		PRINT << CYAN "Class C" << RESEND;
-	else
-		PRINT << RED "error1" << RESEND;
-}
+	MAIN_MSG("string")
+	STRING c = "word1";
+	STRING d = "word2";
+	::swap(c, d);
+	PRINT << "c = " << c << ", d = " << d << RESEND;
+	PRINT << "min( c, d ) = " << ::min(c, d) << RESEND;
+	PRINT << "max( c, d ) = " << ::max(c, d) << RESEND;
+	press_any_key();
 
-void identify(Base &p)
-{
-	try
-	{
-		Base random_class = dynamic_cast<A &>(p);
-		PRINT << GREEN "Class A" << RESEND;
-		return;
-	}
-	catch(const std::exception &e){};
-
-	try
-	{
-		Base random_class = dynamic_cast<B &>(p);
-		PRINT << GREEN "Class B" << RESEND;
-		return;
-	}
-	catch(const std::exception &e){};
-
-	try
-	{
-		Base random_class = dynamic_cast<C &>(p);
-		PRINT << GREEN "Class C" << RESEND;
-		return;
-	}
-	catch(const std::exception &e){};
-}
-
-int main()
-{
-	srand(time(NULL));
-
-	Base *random_class = generate();
-
-	if (random_class != NULL)
-	{
-		identify(random_class);
-		identify(*random_class);
-		delete (random_class);
-
-		SPACER(1)
-	}
-
-	// press_any_key();
 	return 0;
 }
+
+//!SECTION
