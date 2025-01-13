@@ -21,8 +21,7 @@ template <typename Type>
 Array<Type>::Array(Array const &copy) : _array(new Type[copy._size]), _size(copy._size)
 {
 	FT_MSG("Array(Array copy) Constructor")
-    for (unsigned int i = 0; i < _size; i++)
-        _array[i] = copy._array[i];
+    *this = copy;
 }
 
 template <typename Type>

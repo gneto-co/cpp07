@@ -14,6 +14,8 @@ void press_any_key()
 	tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
 	char c = getchar();
+	if (!std::isprint(c))
+		c = ' ';
 	PRINT << c << CURSOR_RIGHT(1) << RESEND;
 
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_terminal);
@@ -41,8 +43,8 @@ int main(int, char **)
 
 		PRINT << "emptyArray size: " << emptyArray.size() << RESEND;
 		press_any_key();
-		SPACER(3)
 	}
+	SPACER(3)
 	{
 		MAIN_MSG("Out of Bounce")
 		Array<int> emptyArray;
@@ -53,8 +55,8 @@ int main(int, char **)
 		}
 		CATCH
 		press_any_key();
-		SPACER(3)
 	}
+	SPACER(3)
 	{
 		Array<int> intArray(5);
 		{
@@ -71,10 +73,10 @@ int main(int, char **)
 
 			PRINT << RESEND;
 			press_any_key();
-			SPACER(3)
 		}
+		SPACER(3)
 		{
-			MAIN_MSG("Copy Constructor not using int array")
+			MAIN_MSG("Copy Constructor")
 			Array<int> intArrayCopy(intArray);
 
 			PRINT << "intArrayCopy size: " << intArrayCopy.size() << RESEND;
@@ -85,9 +87,10 @@ int main(int, char **)
 
 			PRINT << RESEND;
 			press_any_key();
-			SPACER(3)
 		}
+		SPACER(3)
 	}
+	SPACER(3)
 	{
 		MAIN_MSG("Double Array")
 		Array<double> doubleArray(10);
@@ -103,8 +106,8 @@ int main(int, char **)
 
 		PRINT << RESEND;
 		press_any_key();
-		SPACER(3)
 	}
+	SPACER(3)
 
 	return (0);
 }
