@@ -2,6 +2,7 @@
 #define ARRAY_TPP
 
 #include "Strings.h"
+#include "Array.hpp"
 
 /* SECTION - constructors destructors */
 
